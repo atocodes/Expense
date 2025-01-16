@@ -1,0 +1,91 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "3:5512716591428774963",
+      "lastPropertyId": "4:4646237780575914537",
+      "name": "Item",
+      "properties": [
+        {
+          "id": "1:1011817471752139426",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5109436908567369171",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:2819371241344508963",
+          "name": "price",
+          "type": 8
+        },
+        {
+          "id": "4:4646237780575914537",
+          "name": "userId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:4384855849607708520",
+          "relationTarget": "User"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:2016294659020546615",
+      "lastPropertyId": "3:6871692172324689286",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:4601149487508253845",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6981686100064858708",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6871692172324689286",
+          "name": "cash",
+          "type": 8
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:7852458316245816872",
+          "name": "items",
+          "targetId": "3:5512716591428774963"
+        }
+      ]
+    }
+  ],
+  "lastEntityId": "4:2016294659020546615",
+  "lastIndexId": "1:4384855849607708520",
+  "lastRelationId": "1:7852458316245816872",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    8443350035867757933,
+    8789840539828598606
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    4066476688182077888,
+    5671813863622561175,
+    2774804591168921759,
+    3231581745268578494,
+    1940351298092132897,
+    3054683877934992044,
+    807540200342175099
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
