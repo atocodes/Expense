@@ -3,12 +3,15 @@ import "package:expense/bloc/expense_state.dart";
 import "package:expense/database/objectbox.dart";
 import "package:expense/models/item.dart";
 import "package:expense/models/user.dart";
+import "package:expense/screen/cash_in.dart";
+import "package:expense/screen/expense_insight_page.dart";
 import "package:expense/screen/home.dart";
 import "package:expense/screen/loading.dart";
 import "package:expense/screen/welcome.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:objectbox/objectbox.dart";
+import "package:expense/theme/theme_data.dart";
 
 late ObjectBox objectBox;
 
@@ -18,9 +21,12 @@ Future<void> main() async {
   Store store = objectBox.store;
   runApp(
     BlocProvider(
-      create: (_) =>
-          ExpenseBloc(user: store.box<User>(), items: store.box<Item>()),
-      child: const MaterialApp(
+      create: (_) => ExpenseBloc(
+        user: store.box<User>(),
+        items: store.box<Item>(),
+      ),
+      child: MaterialApp(
+        theme: customTheme,
         home: App(),
       ),
     ),
@@ -28,21 +34,49 @@ Future<void> main() async {
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final PageController _pageController = PageController(initialPage: 0);
+  App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<ExpenseBloc, ExpenseState>(builder: (context, state) {
+    return BlocBuilder<ExpenseBloc, ExpenseState>(
+      builder: (context, state) {
         if (state is InitalAppState) {
           return const WelcomePage();
         } else if (state is ConfiguredAppState || state is UpdateAppState) {
-          return HomePage(
-                    user: state.user.getAll().first
-                  );
+          return BlocListener<ExpenseBloc, ExpenseState>(
+            listener: (context, state) {
+              if (state is ErrorAppState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error.toString()),
+                  ),
+                );
+              }
+            },
+            child: PageView(
+              controller: _pageController,
+              children: [
+                Home(
+                  user: state.user.getAll().first,
+                  pageController: _pageController,
+                ),
+                ExpenseInsightPage(
+                  user: state.user.getAll().first,
+                  pageController: _pageController,
+                ),
+                CashInPage(
+                  user: state.user.getAll().first,
+                  pageController: _pageController,
+                ),
+              ],
+            ),
+          );
+
+          // return HomePage(user: state.user.getAll().first);
         }
-        return Loading();
-      }),
+        return const Loading();
+      },
     );
   }
 }
