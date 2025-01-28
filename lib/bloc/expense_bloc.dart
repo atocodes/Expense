@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:expense/bloc/expense_event.dart';
 import 'package:expense/bloc/expense_state.dart';
 import 'package:expense/models/item.dart';
+import 'package:expense/models/log.dart';
 import 'package:expense/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:objectbox/objectbox.dart';
@@ -8,12 +10,26 @@ import 'package:objectbox/objectbox.dart';
 class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   final Box<User> user;
   final Box<Item> items;
+  final Box<Log> logs;
+  final Store store;
+  // final Box<Log> logs;
 
-  ExpenseBloc({required this.user, required this.items})
-      : super(
-          user.getAll().isEmpty
-              ? InitalAppState(items: items, user: user)
-              : ConfiguredAppState(items: items, user: user),
+  ExpenseBloc({required this.store})
+      : user = Box<User>(store),
+        items = Box<Item>(store),
+        logs = Box<Log>(store),
+        super(
+          store.box<User>().getAll().isEmpty
+              ? InitalAppState(
+                  items: Box<Item>(store),
+                  user: Box<User>(store),
+                  logs: Box<Log>(store),
+                )
+              : ConfiguredAppState(
+                  items: Box<Item>(store),
+                  user: Box<User>(store),
+                  logs: Box<Log>(store),
+                ),
         ) {
     on<SetupUser>(_setupUser);
     on<EditUser>(_editUser);
@@ -27,16 +43,25 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     on<ResetApp>(_resetApp);
     on<ResetItems>(_resetItems);
     on<ResetUser>(_resetUser);
+    on<ClearLogs>(_clearLogs);
   }
 
   void _setupUser(SetupUser event, Emitter<ExpenseState> emit) {
     state.user.put(event.user);
-    emit(ConfiguredAppState(user: state.user, items: state.items));
+    emit(ConfiguredAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _editUser(EditUser event, Emitter<ExpenseState> emit) {
     state.user.put(event.user);
-    emit(UpdateAppState(user: state.user, items: state.items));
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _cashIn(CashIn event, Emitter<ExpenseState> emit) {
@@ -46,9 +71,14 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
           user: state.user,
           items: state.items,
           error: Exception("${event.cash} can not be added to your wallet"),
+          logs: state.logs,
         ),
       );
-      emit(UpdateAppState(user: state.user, items: state.items));
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
     } else {
       User user = state.user.getAll().first;
       user.totalCash += event.cash;
@@ -56,7 +86,17 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       user.expenseCash += (event.cash) * .4;
       user.pocketCash += (event.cash) * .1;
       state.user.put(user);
-      emit(UpdateAppState(user: state.user, items: state.items));
+      // ? add log data to database
+      state.logs.put(Log(
+        time: DateTime.now(),
+        logType: LogType.cashIn.index,
+        data: jsonEncode(Cash.calculate(event.cash).toMap()),
+      ));
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
     }
   }
 
@@ -69,76 +109,142 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
           user: state.user,
           items: state.items,
           error: Exception("Your Saving Does Not Have That Amount Of Cash"),
+          logs: state.logs,
         ),
       );
-      emit(UpdateAppState(user: state.user, items: state.items));
-    }else{
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
+    } else {
       user.savingCash -= event.cash;
-      user.expenseCash += (event.cash) * .4;
+      user.expenseCash += (event.cash) * .9;
       user.pocketCash += (event.cash) * .1;
       state.user.put(user);
-      emit(UpdateAppState(user: state.user, items: state.items));
+      state.logs.put(Log(
+        time: DateTime.now(),
+        logType: LogType.cashTransfer.index,
+        data: jsonEncode(Cash.calculate(event.cash,transfer: true).toMap(transfer: true)),
+      ));
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
     }
   }
 
   void _removeUser(RemoveUser event, Emitter<ExpenseState> emit) {
     state.user.remove(event.user.id);
-    emit(InitalAppState(user: state.user, items: state.items));
+    emit(InitalAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _addItem(AddItem event, Emitter<ExpenseState> emit) {
     event.item.user.target = state.user.getAll().first;
     state.items.put(event.item);
-    emit(UpdateAppState(user: state.user, items: state.items));
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _buyItem(ItemPurchase event, Emitter<ExpenseState> emit) {
     User user = state.user.getAll().first;
-
-    if (event.item.price > user.expenseCash && event.item.purchased == false) {
+    CashType cashType = event.item.cashTypeEnum;
+    if (cashType == CashType.expense &&
+            event.item.total > user.expenseCash &&
+            !event.item.purchased ||
+        cashType == CashType.pocket &&
+            event.item.total > user.pocketCash &&
+            !event.item.purchased) {
       emit(
         ErrorAppState(
           user: state.user,
           items: state.items,
-          error: Exception("Can Not Make Purchase , Not Enough Cash..."),
+          error: Exception(event.item.purchased
+              ? "Item Purchased"
+              : "Can Not Make Purchase , Not Enough Cash In ${cashType.name.toUpperCase()}..."),
+          logs: state.logs,
         ),
       );
-      emit(UpdateAppState(user: state.user, items: state.items));
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
     } else {
       if (!event.item.purchased) {
         event.item.purchasedDate = DateTime.now();
-        user.expenseCash -= event.item.price;
-      } else {
-        user.expenseCash += event.item.price;
       }
+
+      switch (event.item.cashTypeEnum) {
+        case CashType.expense:
+          event.item.purchased
+              ? user.expenseCash += event.item.price
+              : user.expenseCash -= event.item.price;
+          break;
+        case CashType.pocket:
+          event.item.purchased
+              ? user.pocketCash += event.item.price
+              : user.pocketCash -= event.item.price;
+          break;
+      }
+
       event.item.purchased = !event.item.purchased;
       state.items.put(event.item);
       state.user.put(user);
-      emit(UpdateAppState(user: state.user, items: state.items));
+      // TODO : Add Purchase log
+      emit(UpdateAppState(
+        user: state.user,
+        items: state.items,
+        logs: state.logs,
+      ));
     }
   }
 
   void _editItem(EditItem event, Emitter<ExpenseState> emit) {
     event.item.user.target = state.user.getAll().first;
     state.items.put(event.item);
-    emit(UpdateAppState(user: state.user, items: state.items));
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _removeItem(RemoveItem event, Emitter<ExpenseState> emit) {
     state.items.remove(event.item.id);
-    emit(UpdateAppState(user: state.user, items: state.items));
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   // reset event controllers
   void _resetApp(ResetApp event, Emitter<ExpenseState> emit) {
     state.user.removeAll();
     state.items.removeAll();
-    emit(InitalAppState(items: state.items, user: state.user));
+    emit(InitalAppState(
+      items: state.items,
+      user: state.user,
+      logs: state.logs,
+    ));
   }
 
   void _resetItems(ResetItems event, Emitter<ExpenseState> emit) {
     state.items.removeAll();
-    emit(UpdateAppState(user: state.user, items: state.items));
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 
   void _resetUser(ResetUser event, Emitter<ExpenseState> emit) {
@@ -148,6 +254,20 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     user.pocketCash = 0;
     user.expenseCash = 0;
     state.user.put(user);
-    emit(UpdateAppState(user: state.user, items: state.items));
+    state.logs.removeAll();
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
+  }
+
+  void _clearLogs(ClearLogs event, Emitter<ExpenseState> emit){
+    state.logs.removeAll();
+    emit(UpdateAppState(
+      user: state.user,
+      items: state.items,
+      logs: state.logs,
+    ));
   }
 }

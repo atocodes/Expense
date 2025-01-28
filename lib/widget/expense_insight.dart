@@ -1,3 +1,4 @@
+import "package:expense/models/item.dart" show CashType;
 import "package:expense/models/user.dart";
 import "package:flutter/material.dart";
 
@@ -62,7 +63,7 @@ class ExpenseInsight extends StatelessWidget {
     double totalCash = 0;
     double expenseCash = user.expenseCash;
     for (var item in user.items) {
-      if (item.purchased) {
+      if (item.purchased && item.cashTypeEnum == CashType.expense) {
         totalCash += item.price;
         expenseCash += item.price;
       }

@@ -1,12 +1,11 @@
 import "package:expense/bloc/expense_bloc.dart";
 import "package:expense/bloc/expense_state.dart";
 import "package:expense/database/objectbox.dart";
-import "package:expense/models/item.dart";
-import "package:expense/models/user.dart";
 import "package:expense/screen/cash_in.dart";
 import "package:expense/screen/expense_insight_page.dart";
 import "package:expense/screen/home.dart";
 import "package:expense/screen/loading.dart";
+import "package:expense/screen/logs_screen.dart";
 import "package:expense/screen/welcome.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -21,13 +20,13 @@ Future<void> main() async {
   Store store = objectBox.store;
   runApp(
     BlocProvider(
-      create: (_) => ExpenseBloc(
-        user: store.box<User>(),
-        items: store.box<Item>(),
-      ),
+      create: (_) => ExpenseBloc(store: store),
       child: MaterialApp(
         theme: customTheme,
         home: App(),
+        routes: {
+          LogsScreen.routeName: (BuildContext context) => LogsScreen(),
+        },
       ),
     ),
   );

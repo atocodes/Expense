@@ -1,6 +1,8 @@
 import 'package:expense/models/item.dart';
 import 'package:expense/models/user.dart';
 
+enum CashFrom { expense, pocket }
+
 abstract class ExpenseEvent {}
 
 class SetupUser extends ExpenseEvent {
@@ -38,9 +40,13 @@ class EditItem extends ExpenseEvent {
   EditItem({required this.item});
 }
 
-class ItemPurchase extends ExpenseEvent{
+class ItemPurchase extends ExpenseEvent {
   final Item item;
-  ItemPurchase({required this.item});
+  CashFrom cashFrom;
+  ItemPurchase({
+    required this.item,
+    this.cashFrom = CashFrom.expense,
+  });
 }
 
 class RemoveItem extends ExpenseEvent {
@@ -56,4 +62,8 @@ class ResetItems extends ExpenseEvent {
 
 class ResetUser extends ExpenseEvent {
   ResetUser();
+}
+
+class ClearLogs extends ExpenseEvent {
+  ClearLogs();
 }

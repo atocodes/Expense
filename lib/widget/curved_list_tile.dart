@@ -52,7 +52,6 @@ class CurvedListTile extends StatelessWidget {
           titleAlignment: ListTileTitleAlignment.center,
           trailing: IconButton(
             onPressed: () {
-              // TODO : buy from cash pocket money or expense
               context.read<ExpenseBloc>().add(ItemPurchase(item: item));
             },
             style: ButtonStyle(
@@ -67,15 +66,39 @@ class CurvedListTile extends StatelessWidget {
             ),
             // child: Text("${item.purchased ? "Un-" : ""}Purchase"),
           ),
-          title: Text(
-            item.name,
-            style: Theme.of(context).textTheme.displaySmall,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                item.name,
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+              Chip(
+                label: Text(
+                    "${item.purchased ? "PAID FROM " : ""} ${item.cashTypeEnum.name.toUpperCase()} CASH ${item.purchased ? "" : "ITEM"}"),
+                labelStyle: Theme.of(context)
+                    .textTheme
+                    .labelSmall!
+                    .merge(const TextStyle(fontSize: 10)),
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(item.priority),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onPrimary)),
+                color: WidgetStatePropertyAll(
+                  item.cashType == 0
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.primaryContainer,
+                ),
+              ),
+            ],
           ),
           subtitle: Wrap(
             alignment: WrapAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total : ${item.price * item.quantity}Br\t"),
+              Text("Total : ${item.total}Br\t"),
               Text("Price : ${item.price} Br/Item\t"),
               Text("Prioritys : ${item.priority}"),
               if (item.purchased)

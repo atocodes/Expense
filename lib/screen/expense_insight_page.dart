@@ -1,6 +1,7 @@
 import "package:expense/modal_sheets/user_options.dart";
 import "package:expense/models/item.dart";
 import "package:expense/models/user.dart";
+import "package:expense/screen/logs_screen.dart";
 import "package:expense/widget/app_logo.dart";
 import "package:expense/widget/expense_insight.dart";
 import "package:expense/widget/curved_list_tile.dart";
@@ -22,6 +23,12 @@ class ExpenseInsightPage extends StatelessWidget {
       appBar: AppBar(
         title: AppLogo(suffix: "Insight"),
         actions: [
+          TextButton.icon(
+            icon: const Icon(Icons.history),
+            label: const Text("Logs"),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(LogsScreen.routeName),
+          ),
           IconButton(
             icon: const Icon(Icons.tune),
             // label: const Text("Edit"),

@@ -2,6 +2,7 @@ import "package:expense/bloc/expense_bloc.dart";
 import "package:expense/bloc/expense_event.dart";
 import "package:expense/modal_sheets/profile_edit.dart";
 import "package:expense/models/user.dart";
+import "package:expense/screen/logs_screen.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 

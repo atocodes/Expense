@@ -3,13 +3,18 @@ import 'package:objectbox/objectbox.dart';
 
 enum SortBy { price, priority }
 
+enum CashType { expense, pocket }
+
 @Entity()
 class Item {
-  int id = 0;
+  int id;
   final String name;
   final double price;
   final int quantity;
   final double priority;
+  final int cashType;
+  double total;
+
   DateTime? purchasedDate;
   bool purchased = false;
 
@@ -17,12 +22,18 @@ class Item {
   final user = ToOne<User>();
 
   Item({
+    this.id = 0,
     required this.name,
     required this.price,
     this.purchasedDate,
     this.quantity = 1,
     this.priority = 0,
-  });
+    this.cashType = 0,
+  }) : total = price * quantity;
+
+  CashType get cashTypeEnum {
+    return CashType.values[cashType];
+  }
 
   static List<Item> sort(List<Item> items, {SortBy sortBy = SortBy.priority}) {
     // bubble sort algo
@@ -43,22 +54,36 @@ class Item {
     return items0;
   }
 
-  static List<Item> affordableItems(List<Item> items, double expense,
-      {SortBy sortBy = SortBy.priority}) {
+  static List<Item> affordableItems(List<Item> items, double money,
+      {SortBy sortBy = SortBy.priority, CashType cashType = CashType.expense}) {
     List<Item> afforableItems = [];
     List<Item> sortedItems = Item.sort(
       items,
       sortBy: sortBy,
     );
-    double cash = expense;
+    double cash = money;
     for (Item item in sortedItems) {
-      if (cash >= item.price && !item.purchased) {
+      if (cash >= item.total &&
+          !item.purchased &&
+          item.cashTypeEnum == cashType) {
         afforableItems.add(item);
-        cash -= item.price;
+        cash -= item.total;
       }
       continue;
     }
 
     return afforableItems;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'quantity': quantity,
+      'priority': priority,
+      'cashType': CashType.values[cashType].name,
+      'total': total,
+    };
   }
 }

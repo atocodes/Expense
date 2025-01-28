@@ -31,18 +31,30 @@ class Cash {
   double savingCash = 0; // ? 50% untouchable bank saving money
   double expenseCash = 0; // ? 40% money which wil be spent on buying items
   double pocketCash = 0; // ? 10% of the rest
+  double? cash = 0;
 
   Cash({
     required this.savingCash,
     required this.expenseCash,
     required this.pocketCash,
+    this.cash,
   });
 
   static Cash calculate(double amount, {bool transfer = false}) {
     return Cash(
-      expenseCash: (amount) * .40,
+      expenseCash: transfer ? (amount) * .90 : (amount) * .40,
       pocketCash: (amount) * .10,
       savingCash: transfer ? amount : (amount) * .5,
+      cash: amount,
     );
+  }
+
+  Map<String, dynamic> toMap({bool transfer = false}) {
+    return {
+      'savingCash': "${transfer ? "-" : "+"}$savingCash",
+      'expenseCash': "+$expenseCash",
+      'pocketCash': "+$pocketCash",
+      'cash': cash,
+    };
   }
 }
