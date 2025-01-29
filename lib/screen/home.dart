@@ -1,5 +1,7 @@
 import "package:expense/modal_sheets/developer_info.dart";
+import "package:expense/models/item.dart";
 import "package:expense/models/user.dart";
+import "package:expense/theme/theme_data.dart";
 import "package:expense/widget/app_logo.dart";
 import "package:expense/widget/cash_insight.dart";
 import "package:expense/widget/items_list.dart";
@@ -20,6 +22,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +79,13 @@ class _HomeState extends State<Home> {
               showMoreCallback: () => widget.pageController.jumpToPage(1),
             ),
             Expanded(
-              child: ItemList(
-                items: widget.user.items,
-                expense: widget.user.expenseCash,
-              ),
+              child: ItemList(user: widget.user),
+              // child: ItemList(
+              //   items: items,
+              //   cash: listType == null
+              //       ? 0
+              //       : widget.user.toMap()["${listType!.name}Cash"],
+              // ),
             ),
           ],
         ),
@@ -89,4 +96,5 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
 }

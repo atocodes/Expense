@@ -58,11 +58,11 @@ class _CashInPageState extends State<CashInPage> {
         bottom: PreferredSize(
           preferredSize: Size(
             double.infinity,
-            MediaQuery.of(context).size.height * .03,
+            MediaQuery.of(context).size.height * .05,
           ),
           child: Text(
             textAlign: TextAlign.center,
-            "Current Cash Status \n Saving: ${widget.user.savingCash}Br | Expense : ${widget.user.expenseCash}Br | Pocket : ${widget.user.pocketCash}Br",
+            "Current Cash Status \n Saving: ${widget.user.savingCash.toStringAsFixed(2)}Br | Expense : ${widget.user.expenseCash.toStringAsFixed(2)}Br | \nPocket : ${widget.user.pocketCash.toStringAsFixed(2)}Br",
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ),

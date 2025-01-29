@@ -3,7 +3,7 @@ import 'package:objectbox/objectbox.dart';
 
 enum SortBy { price, priority }
 
-enum CashType { expense, pocket }
+enum CashType { expense, pocket, saving }
 
 @Entity()
 class Item {
@@ -53,6 +53,9 @@ class Item {
 
     return items0;
   }
+
+  static List<Item> filter(List<Item> items, CashType type) =>
+      items.where((Item item) => item.cashTypeEnum == type).toList();
 
   static List<Item> affordableItems(List<Item> items, double money,
       {SortBy sortBy = SortBy.priority, CashType cashType = CashType.expense}) {

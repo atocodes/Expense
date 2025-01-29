@@ -18,12 +18,16 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _pocketController = TextEditingController();
+  final _expenseController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.user.name;
+    _nameController.text = widget.user.name;
+    _pocketController.text = widget.user.pocketCash.toString();
+    _expenseController.text = widget.user.expenseCash.toString();
   }
 
   @override
@@ -42,35 +46,40 @@ class _EditProfileState extends State<EditProfile> {
             key: formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  controller: nameController,
+                _buildFormFiled(
+                  controller: _nameController,
+                  labelText: "Name",
+                  keyboardType: TextInputType.text,
+                  miniInput: false,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildFormFiled(
+                      controller: _expenseController,
+                      labelText: "Expense Cash",
+                    ),
+                    _buildFormFiled(
+                      controller: _pocketController,
+                      labelText: "Pocket Cash",
+                    ),
+                  ],
+                ),
+                Text(
+                  "Savings : ${widget.user.savingCash}",
                   style: Theme.of(context)
                       .textTheme
                       .displaySmall!
                       .merge(textColor),
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    labelStyle: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .merge(textColor),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       User updatedUser = User(
                         id: widget.user.id,
-                        name: nameController.text,
-                        expenseCash: widget.user.expenseCash,
-                        pocketCash: widget.user.pocketCash,
+                        name: _nameController.text,
+                        expenseCash: double.parse(_expenseController.text),
+                        pocketCash: double.parse(_pocketController.text),
                         savingCash: widget.user.savingCash,
                       );
 
@@ -85,6 +94,39 @@ class _EditProfileState extends State<EditProfile> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFormFiled({
+    required TextEditingController controller,
+    required String labelText,
+    bool miniInput = true,
+    TextInputType keyboardType = TextInputType.number,
+  }) {
+    TextStyle textColor =
+        TextStyle(color: Theme.of(context).colorScheme.primary);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: SizedBox(
+        width: miniInput ? 100 : null,
+        child: TextFormField(
+          controller: controller,
+          style: Theme.of(context).textTheme.displaySmall!.merge(textColor),
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle:
+                Theme.of(context).textTheme.displaySmall!.merge(textColor),
+          ),
+          keyboardType: keyboardType,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your $labelText';
+            }
+            return null;
+          },
         ),
       ),
     );

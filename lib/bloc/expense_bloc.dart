@@ -81,7 +81,6 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       ));
     } else {
       User user = state.user.getAll().first;
-      user.totalCash += event.cash;
       user.savingCash += event.cash * .5;
       user.expenseCash += (event.cash) * .4;
       user.pocketCash += (event.cash) * .1;
@@ -125,7 +124,8 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       state.logs.put(Log(
         time: DateTime.now(),
         logType: LogType.cashTransfer.index,
-        data: jsonEncode(Cash.calculate(event.cash,transfer: true).toMap(transfer: true)),
+        data: jsonEncode(
+            Cash.calculate(event.cash, transfer: true).toMap(transfer: true)),
       ));
       emit(UpdateAppState(
         user: state.user,
@@ -162,6 +162,9 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
             !event.item.purchased ||
         cashType == CashType.pocket &&
             event.item.total > user.pocketCash &&
+            !event.item.purchased ||
+        cashType == CashType.saving &&
+            event.item.total > user.savingCash &&
             !event.item.purchased) {
       emit(
         ErrorAppState(
@@ -193,6 +196,11 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
           event.item.purchased
               ? user.pocketCash += event.item.price
               : user.pocketCash -= event.item.price;
+          break;
+        case CashType.saving:
+          event.item.purchased
+              ? user.savingCash += event.item.price
+              : user.savingCash -= event.item.price;
           break;
       }
 
@@ -262,7 +270,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     ));
   }
 
-  void _clearLogs(ClearLogs event, Emitter<ExpenseState> emit){
+  void _clearLogs(ClearLogs event, Emitter<ExpenseState> emit) {
     state.logs.removeAll();
     emit(UpdateAppState(
       user: state.user,

@@ -14,26 +14,26 @@ class CurvedListTile extends StatelessWidget {
     return Dismissible(
       key: Key(item.id.toString()),
       direction:
-          item.purchased ? DismissDirection.none : DismissDirection.endToStart,
+          item.purchased ? DismissDirection.none : DismissDirection.startToEnd,
       onDismissed: item.purchased
           ? null
           : (DismissDirection direction) {
               context.read<ExpenseBloc>().add(RemoveItem(item: item));
             },
       background: Container(
-        alignment: Alignment.centerRight,
+        alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(vertical: 10),
         color: Theme.of(context).colorScheme.error,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              "REMOVE",
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
             Icon(
               Icons.delete,
               color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            Text(
+              "REMOVE",
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ],
         ),

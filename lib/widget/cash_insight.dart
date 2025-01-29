@@ -48,29 +48,29 @@ class CashInsight extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Total Cash",
+                "Expense Cash",
                 style:
                     Theme.of(context).textTheme.titleMedium!.merge(textColor),
               ),
             ],
           ),
           Text(
-            "${expense + pocketCash + savings}Br",
+            "${expense.toStringAsFixed(2)}Br",
             style: Theme.of(context).textTheme.displayLarge!.merge(textColor),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                '${savings}Br Savings',
+                '${savings.toStringAsFixed(2)}Br Savings',
                 style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
               ),
               Text(
-                '${expense}Br Expense',
+                '${pocketCash.toStringAsFixed(2)}Br Pocket',
                 style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
               ),
               Text(
-                '${pocketCash}Br Pocket',
+                '${(expense + pocketCash + savings).toStringAsFixed(2)}Br Total',
                 style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
               ),
             ],

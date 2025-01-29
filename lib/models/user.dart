@@ -16,14 +16,24 @@ class User {
   User({
     required this.name,
     this.id = 0,
-    this.totalCash = 0,
     this.savingCash = 0,
     this.expenseCash = 0,
     this.pocketCash = 0,
-  });
+  }) : totalCash = expenseCash + savingCash + pocketCash;
 
   static double percent({required double total, required double used}) {
     return ((total - used) * total) / 100;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'totalCash': totalCash,
+      'savingCash': savingCash,
+      'expenseCash': expenseCash,
+      'pocketCash': pocketCash,
+    };
   }
 }
 

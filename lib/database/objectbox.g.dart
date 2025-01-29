@@ -410,8 +410,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 6, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final totalCashParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
           final savingCashParam =
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
           final expenseCashParam =
@@ -421,10 +419,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final object = User(
               name: nameParam,
               id: idParam,
-              totalCash: totalCashParam,
               savingCash: savingCashParam,
               expenseCash: expenseCashParam,
-              pocketCash: pocketCashParam);
+              pocketCash: pocketCashParam)
+            ..totalCash =
+                const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
           obx_int.InternalToManyAccess.setRelInfo<User>(
               object.items,
               store,

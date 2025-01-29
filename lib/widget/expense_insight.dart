@@ -17,7 +17,7 @@ class ExpenseInsight extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "${percent()['spent']}Br",
+                  "${percent()['spent']!.toStringAsFixed(1)}Br",
                   style: Theme.of(context).textTheme.displayLarge,
                 ),
                 Text(
@@ -29,7 +29,7 @@ class ExpenseInsight extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "${user.expenseCash}/${percent()['budget']}Br",
+                  "${user.expenseCash.toStringAsFixed(1)}/${percent()['budget']!.toStringAsFixed(1)}Br",
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 Text(

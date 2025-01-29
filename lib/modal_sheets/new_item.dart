@@ -90,7 +90,7 @@ class _NewItemState extends State<NewItem> {
               ),
               const SizedBox(height: 5),
               Text(
-                "${cashType.name.toUpperCase()} Cash",
+                "FROM ${cashType.name.toUpperCase()} CASH",
                 style:
                     Theme.of(context).textTheme.displaySmall!.merge(textColor),
               ),
