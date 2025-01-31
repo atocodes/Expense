@@ -1,6 +1,7 @@
-import 'package:expense/modal_sheets/new_item.dart';
-import 'package:expense/theme/theme_data.dart';
 import 'package:flutter/material.dart';
+
+import '../modal_sheets/new_item.dart';
+import '../theme/theme_data.dart';
 
 enum OnPage { home, insight, cashIn }
 

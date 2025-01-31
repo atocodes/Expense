@@ -1,20 +1,29 @@
-import "package:expense/bloc/expense_bloc.dart";
-import "package:expense/bloc/expense_event.dart";
-import "package:expense/models/item.dart";
-import "package:expense/models/util.dart";
-import "package:expense/theme/theme_data.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_rating_bar/flutter_rating_bar.dart";
 
+import "../bloc/expense_bloc.dart";
+import "../bloc/expense_event.dart";
+import "../models/item.dart";
+import "../models/util.dart";
+import "../widget/segment_btns.dart";
+
 class NewItem extends StatefulWidget {
   Item? item;
-  NewItem({super.key, this.item});
+  CashType? cashType;
+  NewItem({
+    super.key,
+    this.item,
+    this.cashType,
+  });
 
   @override
   State<NewItem> createState() => _NewItemState();
 
-  static void build(BuildContext context, {Item? item}) {
+  static void build(
+    BuildContext context, {
+    Item? item,
+  }) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -29,7 +38,7 @@ class _NewItemState extends State<NewItem> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   double rating = 0;
-  CashType cashType = CashType.expense;
+  CashType cashType = CashType.xpense;
 
   @override
   void initState() {
@@ -44,7 +53,6 @@ class _NewItemState extends State<NewItem> {
     _quantityController.text = widget.item?.quantity.toString() ?? "1";
   }
 
-// TODO : new item to be creadited from expense or pocket money option
   final double paddingValue = 8.0;
   @override
   Widget build(BuildContext context) {
@@ -84,7 +92,6 @@ class _NewItemState extends State<NewItem> {
                 decoration: const InputDecoration(
                   hintText: "Quantity",
                 ),
-                
                 validator: Utils.validateInput,
                 keyboardType: TextInputType.number,
               ),
@@ -94,31 +101,14 @@ class _NewItemState extends State<NewItem> {
                 style:
                     Theme.of(context).textTheme.displaySmall!.merge(textColor),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .06,
-                child: SegmentedButton<CashType>(
-                  emptySelectionAllowed: true,
-                  style: Theme.of(context)
-                      .elevatedButtonTheme
-                      .style!
-                      .merge(greenBtnStyle),
-                  showSelectedIcon: true,
-                  selectedIcon: Icon(
-                    Icons.check_box_rounded,
-                    size: 25,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  segments: CashType.values
-                      .map((CashType value) => ButtonSegment(
-                            value: value,
-                            icon: const Icon(Icons.monetization_on),
-                            label: Text(value.name.toUpperCase()),
-                          ))
-                      .toList(),
-                  selected: <CashType>{cashType},
-                  onSelectionChanged: (value) => setState(() {
-                    cashType = value.first;
-                  }),
+              SegmentBtns<CashType>(
+                segments: CashType.values,
+                emptySelection: false,
+                selected: cashType,
+                updateSelection: (value) => setState(
+                  () {
+                    cashType = value.first as CashType;
+                  },
                 ),
               ),
               TextFormField(

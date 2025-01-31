@@ -1,17 +1,18 @@
 import 'dart:ui';
 
-import 'package:expense/widget/app_logo.dart';
 import 'package:flutter/material.dart';
 
+import '../widget/app_logo.dart';
+
 class DeveloperInfo extends StatelessWidget {
-  double sigma = 40;
-  DeveloperInfo({super.key});
+  final double sigma = 40;
+  const DeveloperInfo({super.key});
 
   static void buildAlertBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
-        return DeveloperInfo();
+        return const DeveloperInfo();
       },
     );
   }
@@ -49,7 +50,7 @@ class DeveloperInfo extends StatelessWidget {
               left: MediaQuery.of(context).size.width * .1,
               child: Text(
                 textAlign: TextAlign.center,
-                "Thank You For Using My App\nv1.0",
+                "Thank You For Using My App\n Test v1.5",
                 style: Theme.of(context).textTheme.displaySmall,
               ),
             ),

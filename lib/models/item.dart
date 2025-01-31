@@ -1,9 +1,10 @@
-import 'package:expense/models/user.dart';
 import 'package:objectbox/objectbox.dart';
+
+import 'user.dart';
 
 enum SortBy { price, priority }
 
-enum CashType { expense, pocket, saving }
+enum CashType { xpense, pocket, saving }
 
 @Entity()
 class Item {
@@ -55,10 +56,10 @@ class Item {
   }
 
   static List<Item> filter(List<Item> items, CashType type) =>
-      items.where((Item item) => item.cashTypeEnum == type).toList();
+      items.where((Item item) => item.cashTypeEnum == type && !item.purchased).toList();
 
   static List<Item> affordableItems(List<Item> items, double money,
-      {SortBy sortBy = SortBy.priority, CashType cashType = CashType.expense}) {
+      {SortBy sortBy = SortBy.priority, CashType cashType = CashType.xpense}) {
     List<Item> afforableItems = [];
     List<Item> sortedItems = Item.sort(
       items,

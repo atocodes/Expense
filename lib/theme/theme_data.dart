@@ -7,6 +7,7 @@ const Color alabaster = Color(0xFFE4E4DB);
 const Color silver = Color(0xFFC4C4BE);
 const Color red = Colors.red;
 const Color green = Colors.green;
+const Color yellow = Colors.yellow;
 
 const ButtonStyle greenBtnStyle = ButtonStyle(
   backgroundColor: WidgetStatePropertyAll(green),

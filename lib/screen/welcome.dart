@@ -1,6 +1,7 @@
-import "package:expense/screen/user_setup.dart";
-import "package:expense/widget/app_logo.dart";
 import "package:flutter/material.dart";
+
+import "../widget/app_logo.dart";
+import "user_setup.dart";
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

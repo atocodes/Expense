@@ -1,5 +1,6 @@
-import 'package:expense/models/item.dart';
 import 'package:objectbox/objectbox.dart';
+
+import 'item.dart';
 
 @Entity()
 class User {

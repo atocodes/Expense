@@ -1,7 +1,8 @@
-import 'package:expense/models/item.dart';
-import 'package:expense/models/log.dart';
-import 'package:expense/models/user.dart';
 import 'package:objectbox/objectbox.dart';
+
+import '../models/item.dart';
+import '../models/log.dart';
+import '../models/user.dart';
 
 abstract class ExpenseState {
   final Box<User> user;

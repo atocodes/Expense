@@ -1,16 +1,16 @@
-import "package:expense/bloc/expense_bloc.dart";
-import "package:expense/bloc/expense_state.dart";
-import "package:expense/database/objectbox.dart";
-import "package:expense/screen/cash_in.dart";
-import "package:expense/screen/expense_insight_page.dart";
-import "package:expense/screen/home.dart";
-import "package:expense/screen/loading.dart";
-import "package:expense/screen/logs_screen.dart";
-import "package:expense/screen/welcome.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:objectbox/objectbox.dart";
-import "package:expense/theme/theme_data.dart";
+import "bloc/expense_bloc.dart";
+import "bloc/expense_state.dart";
+import "database/objectbox.dart";
+import "screen/cash_in.dart";
+import "screen/xpense_insight_page.dart";
+import "screen/home.dart";
+import "screen/loading.dart";
+import "screen/logs_screen.dart";
+import "screen/welcome.dart";
+import "theme/theme_data.dart";
 
 late ObjectBox objectBox;
 
@@ -25,7 +25,7 @@ Future<void> main() async {
         theme: customTheme,
         home: App(),
         routes: {
-          LogsScreen.routeName: (BuildContext context) => LogsScreen(),
+          LogsScreen.routeName: (BuildContext context) => const LogsScreen(),
         },
       ),
     ),
@@ -60,7 +60,7 @@ class App extends StatelessWidget {
                   user: state.user.getAll().first,
                   pageController: _pageController,
                 ),
-                ExpenseInsightPage(
+                XpenseInsightPage(
                   user: state.user.getAll().first,
                   pageController: _pageController,
                 ),

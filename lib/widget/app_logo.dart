@@ -29,7 +29,7 @@ class AppLogo extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              "${prefix != "" ? "$prefix's" : ""} Expense $suffix",
+              "${prefix != "" ? "$prefix's" : ""} Xpense $suffix",
               style: Theme.of(context).textTheme.displaySmall!.merge(
                     TextStyle(
                       color: light

@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:expense/bloc/expense_event.dart';
-import 'package:expense/bloc/expense_state.dart';
-import 'package:expense/models/item.dart';
-import 'package:expense/models/log.dart';
-import 'package:expense/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:objectbox/objectbox.dart';
+
+import '../models/item.dart';
+import '../models/log.dart';
+import '../models/user.dart';
+import 'expense_event.dart';
+import 'expense_state.dart';
 
 class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   final Box<User> user;
@@ -157,7 +158,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   void _buyItem(ItemPurchase event, Emitter<ExpenseState> emit) {
     User user = state.user.getAll().first;
     CashType cashType = event.item.cashTypeEnum;
-    if (cashType == CashType.expense &&
+    if (cashType == CashType.xpense &&
             event.item.total > user.expenseCash &&
             !event.item.purchased ||
         cashType == CashType.pocket &&
@@ -187,7 +188,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       }
 
       switch (event.item.cashTypeEnum) {
-        case CashType.expense:
+        case CashType.xpense:
           event.item.purchased
               ? user.expenseCash += event.item.price
               : user.expenseCash -= event.item.price;

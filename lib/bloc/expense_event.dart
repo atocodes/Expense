@@ -1,5 +1,5 @@
-import 'package:expense/models/item.dart';
-import 'package:expense/models/user.dart';
+import '../models/item.dart';
+import '../models/user.dart';
 
 enum CashFrom { expense, pocket }
 

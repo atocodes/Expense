@@ -1,6 +1,7 @@
-import "package:expense/theme/theme_data.dart";
-import "package:expense/widget/description_container.dart";
 import "package:flutter/material.dart";
+
+import "../theme/theme_data.dart";
+import "description_container.dart";
 
 class CashInsight extends StatelessWidget {
   final double expense;
@@ -48,7 +49,7 @@ class CashInsight extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Expense Cash",
+                "Xpense Cash",
                 style:
                     Theme.of(context).textTheme.titleMedium!.merge(textColor),
               ),
@@ -103,7 +104,7 @@ class CashInsight extends StatelessWidget {
             Column(
               children: [
                 DescriptionContainer(
-                  title: "Expense",
+                  title: "Xpense",
                   num: expense,
                   // color: Theme.of(context).colorScheme.primaryContainer,
                 ),

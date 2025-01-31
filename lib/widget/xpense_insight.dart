@@ -1,10 +1,11 @@
-import "package:expense/models/item.dart" show CashType;
-import "package:expense/models/user.dart";
 import "package:flutter/material.dart";
 
-class ExpenseInsight extends StatelessWidget {
+import "../models/item.dart";
+import "../models/user.dart";
+
+class XpenseInsight extends StatelessWidget {
   final User user;
-  const ExpenseInsight({super.key, required this.user});
+  const XpenseInsight({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +62,18 @@ class ExpenseInsight extends StatelessWidget {
 
   Map<String, double> percent() {
     double totalCash = 0;
-    double expenseCash = user.expenseCash;
+    double xpenseCash = user.expenseCash;
     for (var item in user.items) {
-      if (item.purchased && item.cashTypeEnum == CashType.expense) {
+      if (item.purchased && item.cashTypeEnum == CashType.xpense) {
         totalCash += item.price;
-        expenseCash += item.price;
+        xpenseCash += item.price;
       }
     }
 
-    double totalPercent = (totalCash / expenseCash) * 100;
+    double totalPercent = (totalCash / xpenseCash) * 100;
     return {
       "spent": totalCash,
-      "budget": expenseCash,
+      "budget": xpenseCash,
       "percent": totalPercent.isNaN ? 0 : totalPercent,
     };
     // return totalPercent;

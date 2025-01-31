@@ -1,17 +1,19 @@
-import "package:expense/modal_sheets/user_options.dart";
-import "package:expense/models/item.dart";
-import "package:expense/models/user.dart";
-import "package:expense/screen/logs_screen.dart";
-import "package:expense/widget/app_logo.dart";
-import "package:expense/widget/expense_insight.dart";
-import "package:expense/widget/curved_list_tile.dart";
-import "package:expense/widget/navs.dart";
+
 import "package:flutter/material.dart";
 
-class ExpenseInsightPage extends StatelessWidget {
+import "../modal_sheets/user_options.dart";
+import "../models/item.dart";
+import "../models/user.dart";
+import "../widget/app_logo.dart";
+import "../widget/xpense_insight.dart";
+import "../widget/item_list_tile.dart";
+import "../widget/navs.dart";
+import "logs_screen.dart";
+
+class XpenseInsightPage extends StatelessWidget {
   final User user;
   final PageController pageController;
-  const ExpenseInsightPage({
+  const XpenseInsightPage({
     super.key,
     required this.pageController,
     required this.user,
@@ -42,7 +44,7 @@ class ExpenseInsightPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ExpenseInsight(user: user),
+            XpenseInsight(user: user),
             Text(
               "Item Purchase History",
               style: Theme.of(context).textTheme.displaySmall,
@@ -57,8 +59,8 @@ class ExpenseInsightPage extends StatelessWidget {
                 child: Column(
                   children: user.items
                       .where((Item item) => item.purchased)
-                      .map((Item item) => CurvedListTile(item: item))
-                      .toList(),
+                      .map((Item item) => ItemListTile(item: item))
+                      .toList().cast<Widget>(),
                 ),
               ),
             )

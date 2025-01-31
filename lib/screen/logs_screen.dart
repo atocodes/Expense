@@ -1,8 +1,9 @@
-import "package:expense/bloc/expense_bloc.dart";
-import "package:expense/bloc/expense_event.dart";
-import "package:expense/models/log.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+import "../bloc/expense_bloc.dart";
+import "../bloc/expense_event.dart";
+import "../models/log.dart";
 
 class LogsScreen extends StatefulWidget {
   static String routeName = "/logs";

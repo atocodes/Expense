@@ -1,9 +1,10 @@
-import "package:expense/bloc/expense_bloc.dart";
-import "package:expense/bloc/expense_event.dart";
-import "package:expense/models/user.dart";
-import "package:expense/widget/app_logo.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+import "../bloc/expense_bloc.dart";
+import "../bloc/expense_event.dart";
+import "../models/user.dart";
+import "../widget/app_logo.dart";
 
 class UserSetupPage extends StatefulWidget {
   const UserSetupPage({super.key});
