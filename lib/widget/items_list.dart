@@ -29,8 +29,11 @@ class _ItemListState extends State<ItemList> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-    items = widget.user.items.where((Item item) => !item.purchased).toList();
+    items = _allItems();
   }
+
+  List<Item> _allItems() =>
+      widget.user.items.where((Item item) => !item.purchased).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +68,12 @@ class _ItemListState extends State<ItemList> {
                       icon: const Icon(Icons.sort),
                       onPressed: () => setState(() {
                         listAll = !listAll;
-
                         items = listType == null || listAll == true
-                            ? widget.user.items.toList()
+                            ? _allItems()
                             : Item.affordableItems(
                                 items,
-                                widget.user.toMap()["${listType!.name}Cash"],
+                                widget.user.toMap()[
+                                    "${listType!.name == "xpense" ? "expense" : listType!.name}Cash"],
                               );
                       }),
                     ),
@@ -79,9 +82,7 @@ class _ItemListState extends State<ItemList> {
                     selected: listType,
                     updateSelection: (value) => setState(() {
                       if (value.isEmpty) {
-                        items = widget.user.items
-                            .where((Item item) => !item.purchased)
-                            .toList();
+                        items = _allItems();
                       } else {
                         items = Item.filter(
                             widget.user.items, value.first as CashType);
@@ -99,7 +100,7 @@ class _ItemListState extends State<ItemList> {
                 )
               else
                 GestureDetector(
-                  onTap: () => NewItem.build(context),
+                  onTap: () => NewItem.build(context, cashType: listType),
                   child: Container(
                     color: Theme.of(context).colorScheme.secondary,
                     height: 100,

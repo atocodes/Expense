@@ -23,11 +23,15 @@ class NewItem extends StatefulWidget {
   static void build(
     BuildContext context, {
     Item? item,
+    CashType? cashType,
   }) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (_) => NewItem(item: item),
+      builder: (_) => NewItem(
+        item: item,
+        cashType: cashType,
+      ),
     );
   }
 }
@@ -49,6 +53,9 @@ class _NewItemState extends State<NewItem> {
       _priceController.text = item.price.toString();
       rating = item.priority;
       cashType = item.cashTypeEnum;
+    }
+    if(widget.cashType != null){
+      cashType = widget.cashType as CashType;
     }
     _quantityController.text = widget.item?.quantity.toString() ?? "1";
   }

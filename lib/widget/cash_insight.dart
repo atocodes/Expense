@@ -76,14 +76,12 @@ class CashInsight extends StatelessWidget {
               ),
             ],
           ),
-          if (0 >= total)
-            ElevatedButton.icon(
-              icon: const Icon(Icons.monetization_on),
-              style: greenBtnStyle,
-              onPressed: goToCashInPage,
-              label: const Text("Add Cash"),
-            ),
-            
+          ElevatedButton.icon(
+            icon: const Icon(Icons.monetization_on),
+            style: greenBtnStyle,
+            onPressed: goToCashInPage,
+            label: const Text("Add Cash"),
+          ),
         ],
       ),
     );
