@@ -3,8 +3,8 @@ import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../bloc/expense_bloc.dart";
 import "../bloc/expense_event.dart";
+import "../screen/user_setup.dart";
 import "../models/user.dart";
-import "profile_edit.dart";
 
 class UserOptions extends StatelessWidget {
   User? user;
@@ -31,7 +31,12 @@ class UserOptions extends StatelessWidget {
             child: ElevatedButton.icon(
               icon: const Icon(Icons.edit),
               label: const Text("Edit User Info"),
-              onPressed: () => EditProfile.build(context, user as User),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => UserSetupPage(user: user),
+                ),
+              ),
+              // onPressed: () => EditProfile.build(context, user as User),
             ),
           ),
           _buildButton(

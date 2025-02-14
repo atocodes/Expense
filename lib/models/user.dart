@@ -10,6 +10,9 @@ class User {
   double savingCash; // ? 50% untouchable bank saving money
   double expenseCash; // ? 40% money which wil be spent on buying items
   double pocketCash; // ? 10% of the rest
+  double savingsPercentage; // Percentage allocated to savings
+  double expensePercentage; // Percentage allocated to expenses
+  double pocketMoneyPercentage; // Percentage allocated to pocket money
 
   // Relationship
   @Backlink()
@@ -20,6 +23,9 @@ class User {
     this.savingCash = 0,
     this.expenseCash = 0,
     this.pocketCash = 0,
+    this.savingsPercentage = .5,
+    this.expensePercentage = .4,
+    this.pocketMoneyPercentage = .1,
   }) : totalCash = expenseCash + savingCash + pocketCash;
 
   static double percent({required double total, required double used}) {
@@ -34,6 +40,9 @@ class User {
       'savingCash': savingCash,
       'expenseCash': expenseCash,
       'pocketCash': pocketCash,
+      'savingsPercentage': savingsPercentage,
+      'expensePercentage': expensePercentage,
+      'pocketMoneyPercentage': pocketMoneyPercentage,
     };
   }
 }
@@ -51,11 +60,16 @@ class Cash {
     this.cash,
   });
 
-  static Cash calculate(double amount, {bool transfer = false}) {
+  static Cash calculate(double amount,
+      {bool transfer = false, required User user}) {
+        print(user.savingsPercentage + user.expensePercentage);
     return Cash(
-      expenseCash: transfer ? (amount) * .90 : (amount) * .40,
-      pocketCash: (amount) * .10,
-      savingCash: transfer ? amount : (amount) * .5,
+      // on transfer the split is going to be a sum of saving and expense percent
+      expenseCash: transfer
+          ? (amount) * (user.savingsPercentage + user.expensePercentage)
+          : (amount) * user.expensePercentage,
+      pocketCash: (amount) * user.pocketMoneyPercentage,
+      savingCash: transfer ? amount : (amount) * user.savingsPercentage,
       cash: amount,
     );
   }

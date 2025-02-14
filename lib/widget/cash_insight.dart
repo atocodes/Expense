@@ -6,7 +6,7 @@ import "description_container.dart";
 class CashInsight extends StatelessWidget {
   final double expense;
   final double savings;
-  final double pocketCash;
+  // final double pocketCash;
   final double total;
   final Function() showMoreCallback;
   final Function() goToCashInPage;
@@ -15,7 +15,7 @@ class CashInsight extends StatelessWidget {
     super.key,
     required this.expense,
     required this.savings,
-    required this.pocketCash,
+    // required this.pocketCash,
     required this.total,
     required this.goToCashInPage,
     required this.showMoreCallback,
@@ -66,12 +66,12 @@ class CashInsight extends StatelessWidget {
                 '${savings.toStringAsFixed(2)}Br Savings',
                 style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
               ),
+              // Text(
+              //   '${pocketCash.toStringAsFixed(2)}Br Pocket',
+              //   style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
+              // ),
               Text(
-                '${pocketCash.toStringAsFixed(2)}Br Pocket',
-                style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
-              ),
-              Text(
-                '${(expense + pocketCash + savings).toStringAsFixed(2)}Br Total',
+                '${(expense + savings).toStringAsFixed(2)}Br Total',
                 style: Theme.of(context).textTheme.titleSmall!.merge(textColor),
               ),
             ],
@@ -106,11 +106,11 @@ class CashInsight extends StatelessWidget {
                   num: expense,
                   // color: Theme.of(context).colorScheme.primaryContainer,
                 ),
-                DescriptionContainer(
-                  title: "Pocket Cash",
-                  num: pocketCash,
-                  // color: Theme.of(context).colorScheme.onPrimary,
-                ),
+                // DescriptionContainer(
+                //   title: "Pocket Cash",
+                //   num: pocketCash,
+                //   // color: Theme.of(context).colorScheme.onPrimary,
+                // ),
               ],
             )
           ],

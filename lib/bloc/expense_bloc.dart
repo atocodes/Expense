@@ -82,15 +82,15 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       ));
     } else {
       User user = state.user.getAll().first;
-      user.savingCash += event.cash * .5;
-      user.expenseCash += (event.cash) * .4;
-      user.pocketCash += (event.cash) * .1;
+      user.savingCash += event.cash * user.savingsPercentage;
+      user.expenseCash += (event.cash) * user.expensePercentage;
+      user.pocketCash += (event.cash) * user.pocketMoneyPercentage;
       state.user.put(user);
       // ? add log data to database
       state.logs.put(Log(
         time: DateTime.now(),
         logType: LogType.cashIn.index,
-        data: jsonEncode(Cash.calculate(event.cash).toMap()),
+        data: jsonEncode(Cash.calculate(event.cash,user: user).toMap()),
       ));
       emit(UpdateAppState(
         user: state.user,
@@ -119,14 +119,14 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       ));
     } else {
       user.savingCash -= event.cash;
-      user.expenseCash += (event.cash) * .9;
-      user.pocketCash += (event.cash) * .1;
+      user.expenseCash += (event.cash) * (user.expensePercentage + user.savingsPercentage);
+      user.pocketCash += (event.cash) * user.savingsPercentage;
       state.user.put(user);
       state.logs.put(Log(
         time: DateTime.now(),
         logType: LogType.cashTransfer.index,
         data: jsonEncode(
-            Cash.calculate(event.cash, transfer: true).toMap(transfer: true)),
+            Cash.calculate(event.cash, transfer: true,user: user).toMap(transfer: true)),
       ));
       emit(UpdateAppState(
         user: state.user,
@@ -161,9 +161,9 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     if (cashType == CashType.xpense &&
             event.item.total > user.expenseCash &&
             !event.item.purchased ||
-        cashType == CashType.pocket &&
-            event.item.total > user.pocketCash &&
-            !event.item.purchased ||
+        // cashType == CashType.pocket &&
+        //     event.item.total > user.pocketCash &&
+        //     !event.item.purchased ||
         cashType == CashType.saving &&
             event.item.total > user.savingCash &&
             !event.item.purchased) {
@@ -193,11 +193,11 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
               ? user.expenseCash += event.item.price
               : user.expenseCash -= event.item.price;
           break;
-        case CashType.pocket:
-          event.item.purchased
-              ? user.pocketCash += event.item.price
-              : user.pocketCash -= event.item.price;
-          break;
+        // case CashType.pocket:
+        //   event.item.purchased
+        //       ? user.pocketCash += event.item.price
+        //       : user.pocketCash -= event.item.price;
+        //   break;
         case CashType.saving:
           event.item.purchased
               ? user.savingCash += event.item.price

@@ -4,7 +4,7 @@ import 'user.dart';
 
 enum SortBy { price, priority }
 
-enum CashType { xpense, pocket, saving }
+enum CashType { xpense, saving }
 
 @Entity()
 class Item {
@@ -55,8 +55,9 @@ class Item {
     return items0;
   }
 
-  static List<Item> filter(List<Item> items, CashType type) =>
-      items.where((Item item) => item.cashTypeEnum == type && !item.purchased).toList();
+  static List<Item> filter(List<Item> items, CashType type) => items
+      .where((Item item) => item.cashTypeEnum == type && !item.purchased)
+      .toList();
 
   static List<Item> affordableItems(List<Item> items, double money,
       {SortBy sortBy = SortBy.priority, CashType cashType = CashType.xpense}) {
@@ -66,6 +67,12 @@ class Item {
       sortBy: sortBy,
     );
     double cash = money;
+
+    // for single item in list
+    if (sortedItems.length > 1 && sortedItems[0].price > cash) {
+      return [];
+    } 
+
     for (Item item in sortedItems) {
       if (cash >= item.total &&
           !item.purchased &&
@@ -76,7 +83,10 @@ class Item {
       continue;
     }
 
-    return afforableItems;
+    return Item.sort(
+      sortBy: sortBy,
+      afforableItems,
+    );
   }
 
   Map<String, dynamic> toMap() {

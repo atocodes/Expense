@@ -17,7 +17,7 @@ late ObjectBox objectBox;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectBox = await ObjectBox.create();
-  Store store = objectBox.store;
+Store store = objectBox.store;
   runApp(
     BlocProvider(
       create: (_) => ExpenseBloc(store: store),

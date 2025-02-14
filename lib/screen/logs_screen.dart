@@ -90,7 +90,7 @@ class _LogsScreenState extends State<LogsScreen> {
                 color: color,
               ),
               Text(
-                "${log.logTypeEnum.name.toUpperCase()} $suffixTxt",
+                suffixTxt,
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!

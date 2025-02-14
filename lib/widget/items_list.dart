@@ -25,15 +25,15 @@ class _ItemListState extends State<ItemList> {
   bool listAll = true;
   CashType? listType;
 
+  List<Item> _allItems() =>
+      widget.user.items.where((Item item) => !item.purchased).toList();
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
     items = _allItems();
   }
-
-  List<Item> _allItems() =>
-      widget.user.items.where((Item item) => !item.purchased).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,11 @@ class _ItemListState extends State<ItemList> {
           setState(() {
             items =
                 state.items.query(Item_.purchased.equals(false)).build().find();
+            if (listType != null) {
+              items = items
+                  .where((Item item) => item.cashTypeEnum == listType)
+                  .toList();
+            }
           });
         }
       },
@@ -70,8 +75,12 @@ class _ItemListState extends State<ItemList> {
                         listAll = !listAll;
                         items = listType == null || listAll == true
                             ? _allItems()
+                                .where((Item item) =>
+                                    item.cashTypeEnum == listType)
+                                .toList()
                             : Item.affordableItems(
                                 items,
+                                cashType: listType as CashType,
                                 widget.user.toMap()[
                                     "${listType!.name == "xpense" ? "expense" : listType!.name}Cash"],
                               );

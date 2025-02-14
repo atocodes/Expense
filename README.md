@@ -7,7 +7,7 @@
 ## 🚀 Features  
 
 - **Smart Cash Split:**  
-  Divide any incoming cash into:
+  Divide any incoming cash into your prefered split but the default are as follows:
   - 🏦 **50% Savings:** Secure it in your bank or savings account  
   - 🛒 **40% Expenses:** Spend wisely on essential and desired purchases  
   - 💸 **10% Pocket Money:** Enjoy guilt-free spending  

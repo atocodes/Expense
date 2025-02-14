@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
             CashInsight(
               expense: widget.user.expenseCash,
               savings: widget.user.savingCash,
-              pocketCash: widget.user.pocketCash,
+              // pocketCash: widget.user.pocketCash,
               total: widget.user.totalCash,
               goToCashInPage: () => widget.pageController.jumpToPage(2),
               showMoreCallback: () => widget.pageController.jumpToPage(1),

@@ -83,47 +83,6 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(22, 6059838292768538145),
-      name: 'User',
-      lastPropertyId: const obx_int.IdUid(6, 4785410688906156844),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 8927650047049383836),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 4246292039591325183),
-            name: 'name',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7868503676237551122),
-            name: 'totalCash',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 8023269755447512997),
-            name: 'savingCash',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 4399671976564971561),
-            name: 'expenseCash',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 4785410688906156844),
-            name: 'pocketCash',
-            type: 8,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[
-        obx_int.ModelBacklink(name: 'items', srcEntity: 'Item', srcField: '')
-      ]),
-  obx_int.ModelEntity(
       id: const obx_int.IdUid(23, 890805507302320321),
       name: 'Log',
       lastPropertyId: const obx_int.IdUid(4, 5129346156108876906),
@@ -151,7 +110,63 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[])
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(29, 8350184930672517465),
+      name: 'User',
+      lastPropertyId: const obx_int.IdUid(9, 8449117336535153580),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6259577638334063078),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 5122064190548296845),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 7351410972353903643),
+            name: 'totalCash',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 1249386128907709947),
+            name: 'savingCash',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 5304556466652548675),
+            name: 'expenseCash',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 6456539518630711874),
+            name: 'pocketCash',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 1388972894087149759),
+            name: 'savingsPercentage',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 7970964825449360966),
+            name: 'expensePercentage',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 8449117336535153580),
+            name: 'pocketMoneyPercentage',
+            type: 8,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[
+        obx_int.ModelBacklink(name: 'items', srcEntity: 'Item', srcField: '')
+      ])
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -189,7 +204,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(23, 890805507302320321),
+      lastEntityId: const obx_int.IdUid(29, 8350184930672517465),
       lastIndexId: const obx_int.IdUid(1, 119913058186381578),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -213,7 +228,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
         7098208033158707814,
         424146076338921323,
         3280736044689919108,
-        1955808374244386468
+        1955808374244386468,
+        6059838292768538145,
+        1952055257102559847,
+        4536893818256889313,
+        117708669395074520,
+        5303999769188455088,
+        3868824195643130061
       ],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
@@ -310,7 +331,64 @@ obx_int.ModelDefinition getObjectBoxModel() {
         8866145462011041434,
         4796208179080220519,
         4000953136829400169,
-        3811726072473049084
+        3811726072473049084,
+        6488870138772133720,
+        5885274322903654364,
+        7679346911493129544,
+        8927650047049383836,
+        4246292039591325183,
+        7868503676237551122,
+        8023269755447512997,
+        4399671976564971561,
+        4785410688906156844,
+        6636076273517735431,
+        77950531208328017,
+        2220789299720191986,
+        5908457813785554444,
+        8449073025851704753,
+        4774581134824980052,
+        6374300115640098345,
+        3304644553637924756,
+        7753691277582646081,
+        6921845989840209160,
+        2665363369969144518,
+        6151709267064511681,
+        5410617483971859617,
+        5574757749177390124,
+        808486562513760402,
+        4084502831042457887,
+        2738903345880413586,
+        7450458242260724172,
+        5961869332728328937,
+        4754247323555066874,
+        6443225245443598216,
+        7359276008364004117,
+        4974430039504050560,
+        7914165018882155053,
+        5002180278216737159,
+        3745720473898455046,
+        1548261374095704383,
+        1856528290688136082,
+        1488197544917779877,
+        4404975346791381404,
+        5766114211278317501,
+        6029862220671759853,
+        3866349574056014100,
+        8000641151028122126,
+        1968664193442275255,
+        7280252179638745080,
+        2365397557019466881,
+        9027051490817508074,
+        8445015324312461893,
+        8218970618488878561,
+        7057456034695795246,
+        8025455174453302084,
+        3168385192483289005,
+        6046132790591297167,
+        1108182737194066725,
+        7626544934644226475,
+        9212437923141432239,
+        6755665303115245924
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -379,60 +457,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.user.attach(store);
           return object;
         }),
-    User: obx_int.EntityDefinition<User>(
-        model: _entities[1],
-        toOneRelations: (User object) => [],
-        toManyRelations: (User object) => {
-              obx_int.RelInfo<Item>.toOneBacklink(
-                      8, object.id, (Item srcObject) => srcObject.user):
-                  object.items
-            },
-        getId: (User object) => object.id,
-        setId: (User object, int id) {
-          object.id = id;
-        },
-        objectToFB: (User object, fb.Builder fbb) {
-          final nameOffset = fbb.writeString(object.name);
-          fbb.startTable(7);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, nameOffset);
-          fbb.addFloat64(2, object.totalCash);
-          fbb.addFloat64(3, object.savingCash);
-          fbb.addFloat64(4, object.expenseCash);
-          fbb.addFloat64(5, object.pocketCash);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final nameParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final savingCashParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
-          final expenseCashParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0);
-          final pocketCashParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
-          final object = User(
-              name: nameParam,
-              id: idParam,
-              savingCash: savingCashParam,
-              expenseCash: expenseCashParam,
-              pocketCash: pocketCashParam)
-            ..totalCash =
-                const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
-          obx_int.InternalToManyAccess.setRelInfo<User>(
-              object.items,
-              store,
-              obx_int.RelInfo<Item>.toOneBacklink(
-                  8, object.id, (Item srcObject) => srcObject.user));
-          return object;
-        }),
     Log: obx_int.EntityDefinition<Log>(
-        model: _entities[2],
+        model: _entities[1],
         toOneRelations: (Log object) => [],
         toManyRelations: (Log object) => {},
         getId: (Log object) => object.id,
@@ -462,6 +488,70 @@ obx_int.ModelDefinition getObjectBoxModel() {
               data: dataParam, logType: logTypeParam, time: timeParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
+          return object;
+        }),
+    User: obx_int.EntityDefinition<User>(
+        model: _entities[2],
+        toOneRelations: (User object) => [],
+        toManyRelations: (User object) => {
+              obx_int.RelInfo<Item>.toOneBacklink(
+                      8, object.id, (Item srcObject) => srcObject.user):
+                  object.items
+            },
+        getId: (User object) => object.id,
+        setId: (User object, int id) {
+          object.id = id;
+        },
+        objectToFB: (User object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(10);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addFloat64(2, object.totalCash);
+          fbb.addFloat64(3, object.savingCash);
+          fbb.addFloat64(4, object.expenseCash);
+          fbb.addFloat64(5, object.pocketCash);
+          fbb.addFloat64(6, object.savingsPercentage);
+          fbb.addFloat64(7, object.expensePercentage);
+          fbb.addFloat64(8, object.pocketMoneyPercentage);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final savingCashParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final expenseCashParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0);
+          final pocketCashParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 14, 0);
+          final savingsPercentageParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 16, 0);
+          final expensePercentageParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 18, 0);
+          final pocketMoneyPercentageParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 20, 0);
+          final object = User(
+              name: nameParam,
+              id: idParam,
+              savingCash: savingCashParam,
+              expenseCash: expenseCashParam,
+              pocketCash: pocketCashParam,
+              savingsPercentage: savingsPercentageParam,
+              expensePercentage: expensePercentageParam,
+              pocketMoneyPercentage: pocketMoneyPercentageParam)
+            ..totalCash =
+                const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          obx_int.InternalToManyAccess.setRelInfo<User>(
+              object.items,
+              store,
+              obx_int.RelInfo<Item>.toOneBacklink(
+                  8, object.id, (Item srcObject) => srcObject.user));
           return object;
         })
   };
@@ -510,46 +600,58 @@ class Item_ {
       obx.QueryDoubleProperty<Item>(_entities[0].properties[9]);
 }
 
-/// [User] entity fields to define ObjectBox queries.
-class User_ {
-  /// See [User.id].
-  static final id = obx.QueryIntegerProperty<User>(_entities[1].properties[0]);
-
-  /// See [User.name].
-  static final name = obx.QueryStringProperty<User>(_entities[1].properties[1]);
-
-  /// See [User.totalCash].
-  static final totalCash =
-      obx.QueryDoubleProperty<User>(_entities[1].properties[2]);
-
-  /// See [User.savingCash].
-  static final savingCash =
-      obx.QueryDoubleProperty<User>(_entities[1].properties[3]);
-
-  /// See [User.expenseCash].
-  static final expenseCash =
-      obx.QueryDoubleProperty<User>(_entities[1].properties[4]);
-
-  /// See [User.pocketCash].
-  static final pocketCash =
-      obx.QueryDoubleProperty<User>(_entities[1].properties[5]);
-
-  /// see [User.items]
-  static final items = obx.QueryBacklinkToMany<Item, User>(Item_.user);
-}
-
 /// [Log] entity fields to define ObjectBox queries.
 class Log_ {
   /// See [Log.id].
-  static final id = obx.QueryIntegerProperty<Log>(_entities[2].properties[0]);
+  static final id = obx.QueryIntegerProperty<Log>(_entities[1].properties[0]);
 
   /// See [Log.data].
-  static final data = obx.QueryStringProperty<Log>(_entities[2].properties[1]);
+  static final data = obx.QueryStringProperty<Log>(_entities[1].properties[1]);
 
   /// See [Log.time].
-  static final time = obx.QueryDateProperty<Log>(_entities[2].properties[2]);
+  static final time = obx.QueryDateProperty<Log>(_entities[1].properties[2]);
 
   /// See [Log.logType].
   static final logType =
-      obx.QueryIntegerProperty<Log>(_entities[2].properties[3]);
+      obx.QueryIntegerProperty<Log>(_entities[1].properties[3]);
+}
+
+/// [User] entity fields to define ObjectBox queries.
+class User_ {
+  /// See [User.id].
+  static final id = obx.QueryIntegerProperty<User>(_entities[2].properties[0]);
+
+  /// See [User.name].
+  static final name = obx.QueryStringProperty<User>(_entities[2].properties[1]);
+
+  /// See [User.totalCash].
+  static final totalCash =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[2]);
+
+  /// See [User.savingCash].
+  static final savingCash =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[3]);
+
+  /// See [User.expenseCash].
+  static final expenseCash =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[4]);
+
+  /// See [User.pocketCash].
+  static final pocketCash =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[5]);
+
+  /// See [User.savingsPercentage].
+  static final savingsPercentage =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[6]);
+
+  /// See [User.expensePercentage].
+  static final expensePercentage =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[7]);
+
+  /// See [User.pocketMoneyPercentage].
+  static final pocketMoneyPercentage =
+      obx.QueryDoubleProperty<User>(_entities[2].properties[8]);
+
+  /// see [User.items]
+  static final items = obx.QueryBacklinkToMany<Item, User>(Item_.user);
 }

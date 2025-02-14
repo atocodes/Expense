@@ -63,7 +63,7 @@ class _CashInPageState extends State<CashInPage> {
           ),
           child: Text(
             textAlign: TextAlign.center,
-            "Current Cash Status \n Saving: ${widget.user.savingCash.toStringAsFixed(2)}Br | Expense : ${widget.user.expenseCash.toStringAsFixed(2)}Br | \nPocket : ${widget.user.pocketCash.toStringAsFixed(2)}Br",
+            "Current Cash Status \n Saving: ${widget.user.savingCash.toStringAsFixed(2)}Br | Expense : ${widget.user.expenseCash.toStringAsFixed(2)}Br.",
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
@@ -84,6 +84,7 @@ class _CashInPageState extends State<CashInPage> {
                     Cash.calculate(
                       double.parse(value.join()),
                       transfer: transfer,
+                      user: widget.user,
                     ),
                   ),
                 Text(

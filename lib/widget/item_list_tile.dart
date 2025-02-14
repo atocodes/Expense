@@ -84,7 +84,7 @@ class ItemListTile extends StatelessWidget {
           Divider(color: Theme.of(context).colorScheme.onPrimary)
         ],
       ),
-      onTap: () => NewItem.build(context, item: item),
+      onTap: item.purchased ? null : () => NewItem.build(context, item: item),
       onLongPress: () =>
           context.read<ExpenseBloc>().add(RemoveItem(item: item)),
     );
